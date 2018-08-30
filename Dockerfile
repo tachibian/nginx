@@ -36,6 +36,8 @@ RUN yum -y install pcre-devel zlib-devel openssl-devel;\
                 --http-scgi-temp-path=/usr/local/var/nginx/scgi_temp;\
     make;\
     make install;\
+    cd /root;\
+    rm -rf ./nginx-1.15.2;\
     chkconfig --add nginx;
 EXPOSE 80 443
 ENTRYPOINT ["/sbin/init"] 
