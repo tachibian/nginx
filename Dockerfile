@@ -1,10 +1,6 @@
 #Dockerfile for nginx
-
 FROM tachibian/centos:ver7.5.1 
 MAINTAINER Kazuhiro Tachibana
-ENV HOME /root
-USER root
-WORKDIR /root
 ADD init.d /etc/init.d/
 ADD nginx-1.15.2.tar.gz  /root/
 RUN yum -y install pcre-devel zlib-devel openssl-devel;\
@@ -18,7 +14,7 @@ RUN yum -y install pcre-devel zlib-devel openssl-devel;\
     ./configure --user=nginx \ 
                 --group=nginx \ 
                 --prefix=/usr/local/nginx \
-                --pid-path=/var/run/nginx.pid \
+                --pid-path=/var/run/nginx/nginx.pid \
                 --lock-path=/var/lock/subsys/nginx \ 
                 --with-http_ssl_module \
                 --with-http_v2_module \
@@ -39,5 +35,8 @@ RUN yum -y install pcre-devel zlib-devel openssl-devel;\
     cd /root;\
     rm -rf ./nginx-1.15.2;\
     chkconfig --add nginx;
+ENV HOME /root
+USER root
+WORKDIR /usr/local/nginx
 EXPOSE 80 443
 ENTRYPOINT ["/sbin/init"] 

@@ -6,7 +6,7 @@
 #               proxy and IMAP/POP3 proxy server
 # processname: nginx
 # config:      /usr/local/nginx/conf/nginx.conf
-# pidfile:     /var/run/nginx.pid
+# pidfile:     /var/run/nginx/nginx.pid
 # lockfile:     /var/lock/subsys/nginx
 
 # Source function library.
@@ -20,6 +20,10 @@ NGINX_CONFIG="${NGINX_HOME}/conf/nginx.conf"
 prog=$(basename ${NGINX_EXEC})
 
 lockfile=/var/lock/subsys/nginx
+
+if [ ! -e /var/run/$prog ]; then
+  mkdir -p /var/run/$prog
+fi
 
 start() {
     [ -x ${NGINX_EXEC} ] || exit 5
